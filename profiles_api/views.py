@@ -6,6 +6,8 @@ from rest_framework import viewsets
 
 from profiles_api import serializers
 
+from profiles_api import models
+
 # Create your views here.
 class HelloApiView(APIView):
     """Test API View"""
@@ -94,4 +96,41 @@ class HelloViewSet(viewsets.ViewSet):
     def destroy(self, request, pk=None):
         """Handle removing an object"""
         return Response({'http_method': 'DELETE'})
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """Handle creating and updating profiles"""
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
+
+    # def get_permissions(self):
+    #     """Handle permissions"""
+    #     if self.request.method in permissions.SAFE_METHODS:
+    #         return (permissions.AllowAny(),)
+    #     return (permissions.IsAuthenticated(),)
+
+    # def create(self, request):
+    #     """Create and return a new user profile"""
+    #     serializer = self.serializer_class(data=request.data)
+
+    #     if serializer.is_valid():
+    #         serializer.save(user=self.request.user)
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     else:
+    #         return Response(
+    #             serializer.errors,
+    #             status=status.HTTP_400_BAD_REQUEST
+    #         )
     
+    # def update(self, request, pk=None):
+    #     """Handle updating an object"""
+    #     profile = self.get_object()
+    #     serializer = self.serializer_class(profile, data=request.data)
+
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     else:
+    #         return Response(
+    #             serializer.errors,
+    #             status=status.HTTP_400_BAD_REQUEST
+    #         )

@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import filters
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
 
 from profiles_api import serializers
 from profiles_api import models
@@ -107,36 +110,44 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = models.UserProfile.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.UpdateOwnProfile,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'email',)
 
-    # def get_permissions(self):
-    #     """Handle permissions"""
-    #     if self.request.method in permissions.SAFE_METHODS:
-    #         return (permissions.AllowAny(),)
-    #     return (permissions.IsAuthenticated(),)
 
-    # def create(self, request):
-    #     """Create and return a new user profile"""
-    #     serializer = self.serializer_class(data=request.data)
+class UserLoginApiView(ObtainAuthToken):
+    """Handle creating user authentication tokens"""
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
-    #     if serializer.is_valid():
-    #         serializer.save(user=self.request.user)
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     else:
-    #         return Response(
-    #             serializer.errors,
-    #             status=status.HTTP_400_BAD_REQUEST
-    #         )
 
-    # def update(self, request, pk=None):
-    #     """Handle updating an object"""
-    #     profile = self.get_object()
-    #     serializer = self.serializer_class(profile, data=request.data)
+# def get_permissions(self):
+#     """Handle permissions"""
+#     if self.request.method in permissions.SAFE_METHODS:
+#         return (permissions.AllowAny(),)
+#     return (permissions.IsAuthenticated(),)
 
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     else:
-    #         return Response(
-    #             serializer.errors,
-    #             status=status.HTTP_400_BAD_REQUEST
-    #         )
+# def create(self, request):
+#     """Create and return a new user profile"""
+#     serializer = self.serializer_class(data=request.data)
+
+#     if serializer.is_valid():
+#         serializer.save(user=self.request.user)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+#     else:
+#         return Response(
+#             serializer.errors,
+#             status=status.HTTP_400_BAD_REQUEST
+#         )
+
+# def update(self, request, pk=None):
+#     """Handle updating an object"""
+#     profile = self.get_object()
+#     serializer = self.serializer_class(profile, data=request.data)
+
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data)
+#     else:
+#         return Response(
+#             serializer.errors,
+#             status=status.HTTP_400_BAD_REQUEST
+#         )

@@ -40,7 +40,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
+    # tasks = models.ManyToManyField('Task', blank=True)
     objects = UserProfileManager()
 
     USERNAME_FIELD = 'email'
@@ -63,3 +63,19 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         Returns string representation of our user
         """
         return self.email
+
+# class Task(models.Model):
+#     """
+#     Database model for tasks in the system
+#     """
+#     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+#     task_name = models.CharField(max_length=255)
+#     task_description = models.TextField()
+#     task_completed = models.BooleanField(default=False)
+#     task_created = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         """
+#         Returns string representation of our task
+#         """
+#         return self.task_name

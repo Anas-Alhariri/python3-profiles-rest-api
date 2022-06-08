@@ -107,6 +107,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = models.UserProfile.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.UpdateOwnProfile,)
+
     # def get_permissions(self):
     #     """Handle permissions"""
     #     if self.request.method in permissions.SAFE_METHODS:
